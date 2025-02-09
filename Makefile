@@ -1,13 +1,20 @@
 .PHONY:
 .SILENT:
 
-all: postgres migrate backend
-
 postgres:
 	docker-compose up --build -d postgres
+
+migrate:
+	./backend/scripts/migration.sh
 
 backend:
 	docker-compose up --build -d backend
 
-migrate:
-	./backend/scripts/migration.sh
+frontend:
+	docker-compose up --build -d frontend
+
+pinger:
+	docker-compose up --build -d pinger
+
+app:
+	docker-compose up --build -d backend frontend pinger
