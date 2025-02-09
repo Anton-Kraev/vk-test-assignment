@@ -47,3 +47,17 @@ services:
       - backend
     networks:
       - net
+
+  pinger:
+    build:
+      context: ./pinger
+      dockerfile: Dockerfile
+    container_name: 'pinger-container'
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    command: ./app
+    depends_on:
+      - backend
+    networks:
+      - net
