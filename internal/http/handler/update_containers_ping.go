@@ -1,19 +1,21 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 	"time"
 
 	"github.com/labstack/echo/v4"
 
 	"github.com/Anton-Kraev/vk-test-assignment/internal/models"
+	repo "github.com/Anton-Kraev/vk-test-assignment/internal/repository"
 )
 
 type ping struct {
-	ContainerID  int           `json:"container_id" validate:"required"`
-	Success      bool          `json:"success" validate:"required"`
-	AttemptTime  time.Time     `json:"attempt_time" validate:"required"`
-	ResponseTime time.Duration `json:"response_time"`
+	ContainerID    int       `json:"container_id" validate:"required"`
+	Success        bool      `json:"success" validate:"required"`
+	AttemptTime    time.Time `json:"attempt_time" validate:"required"`
+	ResponseTimeMS int       `json:"response_time_ms"`
 }
 
 func (p ping) toDomain() models.Container {
@@ -21,7 +23,7 @@ func (p ping) toDomain() models.Container {
 
 	if p.Success {
 		cont.LastSuccefulPing = p.AttemptTime
-		cont.ResponseTime = p.ResponseTime
+		cont.ResponseTimeMS = p.ResponseTimeMS
 	}
 
 	return cont
@@ -43,9 +45,14 @@ func (h Handler) UpdateContainersPing(c echo.Context) error {
 		conts = append(conts, p.toDomain())
 	}
 
-	if err := h.repo.UpdateContainers(c.Request().Context(), conts); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	}
+	err := h.repo.UpdateContainers(c.Request().Context(), conts)
 
-	return c.NoContent(http.StatusOK)
+	switch {
+	case errors.As(err, &repo.ErrContainerNotFound{}):
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	case err != nil:
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	default:
+		return c.NoContent(http.StatusOK)
+	}
 }

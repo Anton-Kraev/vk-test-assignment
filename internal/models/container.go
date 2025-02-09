@@ -10,5 +10,5 @@ type Container struct {
 	IP               net.IP
 	LastPingAttempt  time.Time
 	LastSuccefulPing time.Time
-	ResponseTime     time.Duration
+	ResponseTimeMS   int
 }

@@ -11,21 +11,31 @@ import (
 )
 
 type container struct {
-	ID               int           `json:"id"`
-	IP               net.IP        `json:"ip"`
-	LastPingAttempt  time.Time     `json:"last_ping_attempt,omitempty"`
-	LastSuccefulPing time.Time     `json:"last_successful_ping,omitempty"`
-	ResponseTime     time.Duration `json:"response_time,omitempty"`
+	ID               int        `json:"id"`
+	IP               net.IP     `json:"ip"`
+	LastPingAttempt  *time.Time `json:"last_ping_attempt,omitempty"`
+	LastSuccefulPing *time.Time `json:"last_successful_ping,omitempty"`
+	ResponseTimeMS   int        `json:"response_time_ms,omitempty"`
 }
 
 func containerFromDomain(c models.Container) container {
-	return container{
+	cont := container{
 		ID:               c.ID,
 		IP:               c.IP,
-		LastPingAttempt:  c.LastPingAttempt,
-		LastSuccefulPing: c.LastSuccefulPing,
-		ResponseTime:     c.ResponseTime,
+		LastPingAttempt:  &c.LastPingAttempt,
+		LastSuccefulPing: &c.LastSuccefulPing,
+		ResponseTimeMS:   c.ResponseTimeMS,
 	}
+
+	if c.LastPingAttempt.IsZero() {
+		cont.LastPingAttempt = nil
+	}
+
+	if c.LastSuccefulPing.IsZero() {
+		cont.LastSuccefulPing = nil
+	}
+
+	return cont
 }
 
 type getContainersResponse struct {
@@ -38,7 +48,7 @@ func (h Handler) GetContainers(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	var resp getContainersResponse
+	resp := getContainersResponse{Containers: make([]container, 0)}
 
 	for _, cont := range containers {
 		resp.Containers = append(resp.Containers, containerFromDomain(cont))
