@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
-	"github.com/Anton-Kraev/vk-test-assignment/internal/http/handler"
+	"github.com/Anton-Kraev/vk-test-assignment/backend/internal/http/handler"
 )
 
 func Start(handler handler.Handler) error {

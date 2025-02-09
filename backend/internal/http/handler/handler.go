@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 
-	"github.com/Anton-Kraev/vk-test-assignment/internal/models"
+	"github.com/Anton-Kraev/vk-test-assignment/backend/internal/models"
 )
 
 type repository interface {

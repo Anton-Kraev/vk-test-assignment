@@ -1,13 +1,13 @@
 .PHONY:
 .SILENT:
 
-all: postgres migrate app
+all: postgres migrate backend
 
 postgres:
 	docker-compose up --build -d postgres
 
-app:
-	go run ./cmd/app/main.go
+backend:
+	docker-compose up --build -d backend
 
 migrate:
-	./scripts/migration.sh
+	./backend/scripts/migration.sh

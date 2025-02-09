@@ -6,8 +6,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/Anton-Kraev/vk-test-assignment/internal/models"
-	"github.com/Anton-Kraev/vk-test-assignment/internal/repository"
+	"github.com/Anton-Kraev/vk-test-assignment/backend/internal/models"
+	"github.com/Anton-Kraev/vk-test-assignment/backend/internal/repository"
 )
 
 func (r Repository) UpdateContainers(ctx context.Context, containers []models.Container) error {

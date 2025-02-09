@@ -1,4 +1,4 @@
-module github.com/Anton-Kraev/vk-test-assignment
+module github.com/Anton-Kraev/vk-test-assignment/backend
 
 go 1.23.5
 

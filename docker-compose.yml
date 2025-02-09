@@ -19,3 +19,18 @@ services:
           memory: 4G
     networks:
       - net
+
+  backend:
+    env_file: .env
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: 'backend-container'
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    command: ./app
+    depends_on:
+      - postgres
+    networks:
+      - net

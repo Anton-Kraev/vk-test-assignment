@@ -7,8 +7,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/Anton-Kraev/vk-test-assignment/internal/models"
-	repo "github.com/Anton-Kraev/vk-test-assignment/internal/repository"
+	"github.com/Anton-Kraev/vk-test-assignment/backend/internal/models"
+	repo "github.com/Anton-Kraev/vk-test-assignment/backend/internal/repository"
 )
 
 type ping struct {

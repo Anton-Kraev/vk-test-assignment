@@ -7,7 +7,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/Anton-Kraev/vk-test-assignment/internal/models"
+	"github.com/Anton-Kraev/vk-test-assignment/backend/internal/models"
 )
 
 type container struct {

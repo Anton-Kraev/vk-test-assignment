@@ -8,7 +8,7 @@ import (
 
 	"github.com/georgysavva/scany/v2/pgxscan"
 
-	"github.com/Anton-Kraev/vk-test-assignment/internal/models"
+	"github.com/Anton-Kraev/vk-test-assignment/backend/internal/models"
 )
 
 type container struct {
